@@ -6,6 +6,8 @@ Referenced starter code from https://github.com/Donohue/alexa
 
 'use strict';
 
+const RECOMMENDATION_LIMIT = 3; 
+
 // Route the incoming request based on type (LaunchRequest, IntentRequest,
 // etc.) The JSON body of the request is provided in the event parameter.
 exports.handler = function (event, context) {
@@ -92,6 +94,9 @@ function onIntent(intentRequest, session, callback) {
         case "EnterLocationIntent":
             handleEnterLocationRequest(intent, session, callback);
             break;
+        case "FindRestaurantIntent": 
+        	handleFindRestaurantIntent(intent, session, callback); 
+        	break;
         default:
             throw "Invalid intent";
     }
@@ -145,6 +150,51 @@ function handleAddFiltersRequest(intent, session, callback) {
 function handleAddRatingsFilterRequest(intent, session, callback) {
     callback(session.attributes,
         buildSpeechletResponseWithoutCard("Ok. Please specify a minimum star rating.", "false"));
+}
+
+function handleFindRestaurantIntent(intent, session, callback) {
+    // term and location can safely be put into query string even if 
+    // they are undefined -- Yelp's API still handles the search with default values
+   	let searchRequest = {
+	  "term": session.attributes.foodType,
+	  "location": session.attributes.location
+	};
+
+	let sortBy = session.attributes.sortBy;
+    let price = session.attributes.price;
+    let openNow = session.attributes.openNow; 
+
+	// Parse remaining filter fields
+	if (sortBy) searchRequest["sort_by"] = sortBy.replace(/\s/g, '_');
+	if (price) searchRequest["price"] = price.charAt(0); 
+	if (openNow) searchRequest["open_now"] = true; 
+
+	yelp.accessToken(clientId, clientSecret).then(response => {
+	  const client = yelp.client(response.jsonBody.access_token);
+	  const restaurants = []; 
+
+	  client.search(searchRequest).then(response => {
+	  	// for (var i = 0; i < n_items; ++i) {
+	  	// 	restaurants[i] = {
+	  	// 		"name": response.jsonBody.businesses[i].name,
+	  	// 		"rating": response.jsonBody.businesses[i].rating
+	  	// 	};
+	  	// }
+	  	var msg = "Your top restaurant recommendations are "; 
+	  	for (var i = 0; i < RECOMMENDATION_LIMIT; i++) {
+	  		var restaurant = response.jsonBody.businesses[i]; 
+	  		if (restaurant)
+	  			msg += `${restaurant.name}, ${restaurant.rating} `; 
+	  	}
+
+	    const prettyJson = JSON.stringify(firstResult, null, 4);
+	    console.log(prettyJson);
+	    callback(session.attributes,
+	        buildSpeechletResponseWithoutCard("msg", "false"));
+	  });
+	}).catch(e => {
+	  console.log(e);
+	});
 }
 
 // ------- Helper functions to build responses -------

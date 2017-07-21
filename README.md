@@ -19,6 +19,10 @@ In a world with so many restaurat choices, it can be difficult, if not impossibl
 
 ## Usage
 
+Preface every command to Alexa with, 
+
+"Alexa, ask Restaurant Finder for ... "
+
 ## Requirements
 
 ## Contribution
