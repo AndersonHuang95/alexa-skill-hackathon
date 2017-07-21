@@ -14,14 +14,14 @@ In a world with so many restaurat choices, it can be difficult, if not impossibl
 ### Playback
 
 ## Intents
-Launch Intent - "Find me some restaurants"
-EnterFoodTypeIntent - "I want Chinese food"
-EnterLocationIntent - "In Seattle"
-EnterFilterIntent - "I want to add filters"
-AddSortByFilterIntent - "I want to sort the result by distance"
-AddPriceFilterIntent - "Show me 2 dollar signs restaurants"
-AddOpenNowFilterIntent - "Only show restaurants currently open
-FindRestaurantIntent - "Search now"
+1. Launch Intent - "Find me some restaurants"
+2. EnterFoodTypeIntent - "I want Chinese food"
+3. EnterLocationIntent - "In Seattle"
+4. EnterFilterIntent - "I want to add filters"
+5. AddSortByFilterIntent - "I want to sort the result by distance"
+6. AddPriceFilterIntent - "Show me 2 dollar signs restaurants"
+7. AddOpenNowFilterIntent - "Only show restaurants currently open
+8. FindRestaurantIntent - "Search now"
 
 ## Utterances
 
