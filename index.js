@@ -94,6 +94,27 @@ function onIntent(intentRequest, session, callback) {
         case "EnterLocationIntent":
             handleEnterLocationRequest(intent, session, callback);
             break;
+        case "EnterFilterIntent":
+            handleAddFiltersRequest(intent, session, callback);
+            break;
+        case "ChoosePriceIntent":
+            handlePriceFilterRequest(intent, session, callback);
+            break;
+        case "AddPriceFilterIntent":
+            handleEnterPriceFilterRequest(intent, session, callback);
+            break;
+        case "ChooseOpenNowIntent":
+            handleOpenNowFilterRequest(intent, session, callback);
+            break;
+        case "AddOpenNowFilterIntent":
+            handleEnterOpenNowFilterRequest(intent, session, callback);
+            break;
+        case "ChooseSortByIntent":
+            handleSortByFilterRequest(intent, session, callback);
+            break;
+        case "AddSortByFilterIntent":
+            handleEnterSortByFilterRequest(intent, session, callback);
+            break;
         case "FindRestaurantIntent": 
         	handleFindRestaurantIntent(intent, session, callback); 
         	break;
@@ -122,7 +143,6 @@ function handleEnterFoodTypeRequest(intent, session, callback) {
     var sessionAttributes = {
         "foodType": intent.slots.FoodType.value
     };
-    session.attributes = sessionAttributes;
     callback(sessionAttributes,
         buildSpeechletResponseWithoutCard("Ok. Would you like to search now, or add your location as well?", "false"));
 }
@@ -135,9 +155,8 @@ function handleAddLocationRequest(intent, session, callback) {
 function handleEnterLocationRequest(intent, session, callback) {
     var sessionAttributes = {
         "foodType": session.attributes.foodType,
-        "location": intent.slots.Location.
+        "location": intent.slots.Location.value
     };
-    session.attributes = sessionAttributes;
     callback(sessionAttributes,
         buildSpeechletResponseWithoutCard("Ok. Would you like to search now, or add filters?", "false"));
 }
@@ -147,9 +166,36 @@ function handleAddFiltersRequest(intent, session, callback) {
         buildSpeechletResponseWithoutCard("Ok. You can add one or more of the following filters: sort by, price, and open now. Which would you like to filter by?", "false"));
 }
 
-function handleAddRatingsFilterRequest(intent, session, callback) {
+function handleOpenNowFilterRequest(intent, session, callback) {
     callback(session.attributes,
-        buildSpeechletResponseWithoutCard("Ok. Please specify a minimum star rating.", "false"));
+        buildSpeechletResponseWithoutCard("Of course. Just say something like 'Show me restaurants currently open.'"));
+}
+
+function handleOpenNowFilterRequest(intent, session, callback) {
+    session.attributes.openNow = true;
+    var additionalFilters = "";
+    if (!session.attributes.hasOwnProperty("price")) {
+        additionalFilters += "price ";
+    }
+    if (!session.attributes.hasOwnProperty("sortBy")) {
+        additionalFilters += "sortBy";
+    }
+    var speechletResponse = "";
+    if (additionalFilters.length == 0) {
+        speechletResponse = "Great. All filters have been applied. You can search now.";
+    } else {
+        speechletResponse = "Great. Would you like to search now, or add more filters? You can also add ";
+        if (additionalFilters.length > 6) 
+            additionalFilters.split(' ').join(" or "); 
+        speechletResponse += additionalFilters;
+    }
+    callback(session.attributes,
+        buildSpeechletResponseWithoutCard(speechletResponse));
+}
+
+function handleSortByFilterRequest(intent, session, callback) {
+    callback(session.attributes,
+        buildSpeechletResponseWithoutCard("Of course. Just say something like 'Sort by rating or review count or distance'"));
 }
 
 function handleFindRestaurantIntent(intent, session, callback) {
@@ -195,6 +241,55 @@ function handleFindRestaurantIntent(intent, session, callback) {
 	}).catch(e => {
 	  console.log(e);
 	});
+}
+
+function handleEnterSortByFilterRequest(intent, session, callback) {
+    session.attributes.sortBy = intent.slots.SortByFilter.value;
+    var additionalFilters = "";
+    if (!session.attributes.hasOwnProperty("openNow")) {
+        additionalFilters += "openNow";
+    }
+    if (!session.attributes.hasOwnProperty("price")) {
+        additionalFilters += "  price";
+    }
+    var speechletResponse = "";
+    if (additionalFilters.length == 0) {
+        speechletResponse = "Great. All filters have been applied. You can search now.";
+    } else {
+        speechletResponse = "Great. Would you like to search now, or add more filters? You can also add ";
+        if (additionalFilters.length > 7) 
+            additionalFilters.split(' ').join(" or "); 
+        speechletResponse += additionalFilters;
+    }
+    callback(session.attributes,
+        buildSpeechletResponseWithoutCard(speechletResponse));
+}
+
+function handlePriceFilterRequest(intent, session, callback) {
+    callback(session.attributes,
+        buildSpeechletResponseWithoutCard("Of course. Just say something like 'I want 3 dollar signs restaurants.'"));
+}
+
+function handleEnterPriceFilterRequest(intent, session, callback) {
+    session.attributes.price = intent.slots.PriceFilter.value;
+    var additionalFilters = "";
+    if (!session.attributes.hasOwnProperty("openNow")) {
+        additionalFilters += "openNow";
+    }
+    if (!session.attributes.hasOwnProperty("sortBy")) {
+        additionalFilters += " sortBy";
+    }
+    var speechletResponse = "";
+    if (additionalFilters.length == 0) {
+        speechletResponse = "Great. All filters have been applied. You can search now.";
+    } else {
+        speechletResponse = "Great. Would you like to search now, or add more filters? You can also add ";
+        if (additionalFilters.length > 7) 
+            additionalFilters.split(' ').join(" or "); 
+        speechletResponse += additionalFilters;
+    }
+    callback(session.attributes,
+        buildSpeechletResponseWithoutCard(speechletResponse));
 }
 
 // ------- Helper functions to build responses -------

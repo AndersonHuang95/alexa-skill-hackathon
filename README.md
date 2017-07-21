@@ -11,27 +11,36 @@ In a world with so many restaurat choices, it can be difficult, if not impossibl
 
 ### Search 
 
+Search is done by using the Yelp Fusion API. Query strings are gathered by the conversation between Alexa and the end user. For more information about the Yelp Fusion API, see the link above. 
+
 ### Playback
 
-## Intents
+Callbacks enable Alexa to build a speech response. For more information, see source code. 
+
+## Intents 
+
+Below are the available intents in our skill, along with sample utterances that active the intents.  
+
 1. Launch Intent - "Find me some restaurants"
-2. EnterFoodTypeIntent - "I want Chinese food"
-3. EnterLocationIntent - "In Seattle"
+2. EnterFoodTypeIntent - "I want {Chinese food}"
+3. EnterLocationIntent - "In {Seattle}"
 4. EnterFilterIntent - "I want to add filters"
-5. AddSortByFilterIntent - "I want to sort the result by distance"
-6. AddPriceFilterIntent - "Show me 2 dollar signs restaurants"
+5. AddSortByFilterIntent - "I want to sort the result by {distance}"
+6. AddPriceFilterIntent - "Show me {2 dollar signs} restaurants"
 7. AddOpenNowFilterIntent - "Only show restaurants currently open
 8. FindRestaurantIntent - "Search now"
 
 ## Utterances
 
+The arguments in curly brackets in the Intents sections can be replaced as follows. For the EnterFoodTypeIntent, replace with any food item or cuisine. For the EnterLocationIntent, replace the argument with any city in the United States. For the AddSortByFilterIntent, the filter can be one of 'distance', 'rating', 'best match' or 'review count'. For the AddPriceFilterIntent, the filter can be 1, 2, 3, or 4 dollar signs. 
+
 ## Usage
 
-Preface every command to Alexa with, 
-
-"Alexa, ask Restaurant Finder for ... "
+Test this skill out in the Alexa Skill Kit Test Console. At the time of writing, this skill has not been deployed as a certfiable skill for Alexa. 
 
 ## Requirements
+
+You must have node.js configured to build this package locally or to upload this onto the AWS Lambda console.
 
 ## Contribution
 Anderson Huang - UCLA Undergraduate Computer Science
