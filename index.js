@@ -124,7 +124,7 @@ function handleEnterFoodTypeRequest(intent, session, callback) {
 
 function handleAddLocationRequest(intent, session, callback) {
     callback(session.attributes,
-        buildSpeechletResponseWithoutCard("Ok. Please specify a city name.", "", "false"));
+        buildSpeechletResponseWithoutCard("Ok. Please specify a city name.", "false"));
 }
 
 function handleEnterLocationRequest(intent, session, callback) {
@@ -134,17 +134,17 @@ function handleEnterLocationRequest(intent, session, callback) {
     };
     session.attributes = sessionAttributes;
     callback(sessionAttributes,
-        buildSpeechletResponseWithoutCard("Ok. Would you like to search now, or add filters?", "", "false"));
+        buildSpeechletResponseWithoutCard("Ok. Would you like to search now, or add filters?", "false"));
 }
 
 function handleAddFiltersRequest(intent, session, callback) {
     callback(session.attributes,
-        buildSpeechletResponseWithoutCard("Ok. You can add one or more of the following filters: sort by, price, and open now. Which would you like to filter by?", "", "false"));
+        buildSpeechletResponseWithoutCard("Ok. You can add one or more of the following filters: sort by, price, and open now. Which would you like to filter by?", "false"));
 }
 
 function handleAddRatingsFilterRequest(intent, session, callback) {
     callback(session.attributes,
-        buildSpeechletResponseWithoutCard("Ok. Please specify a minimum star rating.", "", "false"));
+        buildSpeechletResponseWithoutCard("Ok. Please specify a minimum star rating.", "false"));
 }
 
 // ------- Helper functions to build responses -------
