@@ -43,8 +43,12 @@ Test this skill out in the Alexa Skill Kit Test Console. At the time of writing,
 You must have node.js configured to build this package locally or to upload this onto the AWS Lambda console.
 
 ## Contribution
-Anderson Huang - UCLA Undergraduate Computer Science
-Ellen Hong - UCBerkeley Undergraduate Computer Science
-Hexi Zilong Xiao - USC Undergraduate Computer Science
+
+Anderson Huang - UCLA Undergraduate Computer Science. 
+
+Ellen Hong - UCB Undergraduate Computer Science. 
+
+Hexi Zilong Xiao - USC Undergraduate Computer Science. 
+
 
 Enjoy!

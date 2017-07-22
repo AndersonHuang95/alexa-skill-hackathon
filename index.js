@@ -6,7 +6,10 @@ Referenced starter code from https://github.com/Donohue/alexa
 
 'use strict';
 
-const RECOMMENDATION_LIMIT = 3; 
+const yelp = require('yelp-fusion');
+const clientId = 'NUEwsS0eL99IUXuxG5e2Cw';
+const clientSecret = 'qzvo8VIx4sfdfIojjM5QOzpD0R0kLLtmg26JzFajltCTP4qB1oiwZQbESi0kzpax';
+const RECOMMENDATION_LIMIT = 3; // Configure this to get more recommendations from Alexa
 
 // Route the incoming request based on type (LaunchRequest, IntentRequest,
 // etc.) The JSON body of the request is provided in the event parameter.
