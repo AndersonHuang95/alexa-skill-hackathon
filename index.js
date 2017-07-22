@@ -171,10 +171,10 @@ function handleAddFiltersRequest(intent, session, callback) {
 
 function handleOpenNowFilterRequest(intent, session, callback) {
     callback(session.attributes,
-        buildSpeechletResponseWithoutCard("Of course. Just say something like 'Show me restaurants currently open.'"));
+        buildSpeechletResponseWithoutCard("Of course. Just say something like 'Show me restaurants currently open.'", "false"));
 }
 
-function handleOpenNowFilterRequest(intent, session, callback) {
+function handleEnterOpenNowFilterRequest(intent, session, callback) {
     session.attributes.openNow = true;
     var additionalFilters = "";
     if (!session.attributes.hasOwnProperty("price")) {
@@ -184,7 +184,7 @@ function handleOpenNowFilterRequest(intent, session, callback) {
         additionalFilters += "sortBy";
     }
     var speechletResponse = "";
-    if (additionalFilters.length == 0) {
+    if (additionalFilters.length === 0) {
         speechletResponse = "Great. All filters have been applied. You can search now.";
     } else {
         speechletResponse = "Great. Would you like to search now, or add more filters? You can also add ";
@@ -198,7 +198,7 @@ function handleOpenNowFilterRequest(intent, session, callback) {
 
 function handleSortByFilterRequest(intent, session, callback) {
     callback(session.attributes,
-        buildSpeechletResponseWithoutCard("Of course. Just say something like 'Sort by rating or review count or distance'"));
+        buildSpeechletResponseWithoutCard("Of course. Just say something like 'Sort by rating or review count or distance'", "false"));
 }
 
 function handleFindRestaurantIntent(intent, session, callback) {
@@ -218,32 +218,34 @@ function handleFindRestaurantIntent(intent, session, callback) {
 	if (price) searchRequest["price"] = price.charAt(0); 
 	if (openNow) searchRequest["open_now"] = true; 
 
-	yelp.accessToken(clientId, clientSecret).then(response => {
-	  const client = yelp.client(response.jsonBody.access_token);
-	  const restaurants = []; 
+	// yelp.accessToken(clientId, clientSecret).then(response => {
+	//   const client = yelp.client(response.jsonBody.access_token);
+	//   const restaurants = []; 
 
-	  client.search(searchRequest).then(response => {
-	  	// for (var i = 0; i < n_items; ++i) {
-	  	// 	restaurants[i] = {
-	  	// 		"name": response.jsonBody.businesses[i].name,
-	  	// 		"rating": response.jsonBody.businesses[i].rating
-	  	// 	};
-	  	// }
-	  	var msg = "Your top restaurant recommendations are "; 
-	  	for (var i = 0; i < RECOMMENDATION_LIMIT; i++) {
-	  		var restaurant = response.jsonBody.businesses[i]; 
-	  		if (restaurant)
-	  			msg += `${restaurant.name}, ${restaurant.rating} `; 
-	  	}
+	//   client.search(searchRequest).then(response => {
+	//   	// for (var i = 0; i < n_items; ++i) {
+	//   	// 	restaurants[i] = {
+	//   	// 		"name": response.jsonBody.businesses[i].name,
+	//   	// 		"rating": response.jsonBody.businesses[i].rating
+	//   	// 	};
+	//   	// }
+	//   	var msg = "Your top restaurant recommendations are "; 
+	//   	for (var i = 0; i < RECOMMENDATION_LIMIT; i++) {
+	//   		var restaurant = response.jsonBody.businesses[i]; 
+	//   		if (restaurant)
+	//   			msg += `${restaurant.name}, ${restaurant.rating} `; 
+	//   	}
 
-	    const prettyJson = JSON.stringify(firstResult, null, 4);
-	    console.log(prettyJson);
-	    callback(session.attributes,
-	        buildSpeechletResponseWithoutCard("msg", "false"));
-	  });
-	}).catch(e => {
-	  console.log(e);
-	});
+	//     const prettyJson = JSON.stringify(firstResult, null, 4);
+	//     console.log(prettyJson);
+	//     callback(session.attributes,
+	//         buildSpeechletResponseWithoutCard(msg, "false"));
+	//   });
+	// }).catch(e => {
+	//   console.log(e);
+	// });
+            callback(session.attributes,
+            buildSpeechletResponseWithoutCard("This didn't fail", "false"));
 }
 
 function handleEnterSortByFilterRequest(intent, session, callback) {
@@ -256,7 +258,7 @@ function handleEnterSortByFilterRequest(intent, session, callback) {
         additionalFilters += "  price";
     }
     var speechletResponse = "";
-    if (additionalFilters.length == 0) {
+    if (additionalFilters.length === 0) {
         speechletResponse = "Great. All filters have been applied. You can search now.";
     } else {
         speechletResponse = "Great. Would you like to search now, or add more filters? You can also add ";
@@ -265,7 +267,7 @@ function handleEnterSortByFilterRequest(intent, session, callback) {
         speechletResponse += additionalFilters;
     }
     callback(session.attributes,
-        buildSpeechletResponseWithoutCard(speechletResponse));
+        buildSpeechletResponseWithoutCard(speechletResponse, "false"));
 }
 
 function handlePriceFilterRequest(intent, session, callback) {
@@ -283,7 +285,7 @@ function handleEnterPriceFilterRequest(intent, session, callback) {
         additionalFilters += " sortBy";
     }
     var speechletResponse = "";
-    if (additionalFilters.length == 0) {
+    if (additionalFilters.length === 0) {
         speechletResponse = "Great. All filters have been applied. You can search now.";
     } else {
         speechletResponse = "Great. Would you like to search now, or add more filters? You can also add ";
@@ -292,7 +294,7 @@ function handleEnterPriceFilterRequest(intent, session, callback) {
         speechletResponse += additionalFilters;
     }
     callback(session.attributes,
-        buildSpeechletResponseWithoutCard(speechletResponse));
+        buildSpeechletResponseWithoutCard(speechletResponse, "false"));
 }
 
 // ------- Helper functions to build responses -------
