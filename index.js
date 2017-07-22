@@ -9,7 +9,7 @@ Referenced starter code from https://github.com/Donohue/alexa
 const yelp = require('yelp-fusion');
 const clientId = 'NUEwsS0eL99IUXuxG5e2Cw';
 const clientSecret = 'qzvo8VIx4sfdfIojjM5QOzpD0R0kLLtmg26JzFajltCTP4qB1oiwZQbESi0kzpax';
-const RECOMMENDATION_LIMIT = 3; // Configure this to get more recommendations from Alexa
+// const RECOMMENDATION_LIMIT = 3;
 
 // Route the incoming request based on type (LaunchRequest, IntentRequest,
 // etc.) The JSON body of the request is provided in the event parameter.
@@ -218,34 +218,34 @@ function handleFindRestaurantIntent(intent, session, callback) {
 	if (price) searchRequest["price"] = price.charAt(0); 
 	if (openNow) searchRequest["open_now"] = true; 
 
-	// yelp.accessToken(clientId, clientSecret).then(response => {
-	//   const client = yelp.client(response.jsonBody.access_token);
-	//   const restaurants = []; 
+	yelp.accessToken(clientId, clientSecret).then(response => {
+	  const client = yelp.client(response.jsonBody.access_token);
+	  // const restaurants = []; 
 
-	//   client.search(searchRequest).then(response => {
-	//   	// for (var i = 0; i < n_items; ++i) {
-	//   	// 	restaurants[i] = {
-	//   	// 		"name": response.jsonBody.businesses[i].name,
-	//   	// 		"rating": response.jsonBody.businesses[i].rating
-	//   	// 	};
-	//   	// }
-	//   	var msg = "Your top restaurant recommendations are "; 
-	//   	for (var i = 0; i < RECOMMENDATION_LIMIT; i++) {
-	//   		var restaurant = response.jsonBody.businesses[i]; 
-	//   		if (restaurant)
-	//   			msg += `${restaurant.name}, ${restaurant.rating} `; 
-	//   	}
+	  client.search(searchRequest).then(response => {
+	  	var first = {
+	  		"name": response.jsonBody.businesses[0].name,
+	  		"rating": response.jsonBody.businesses[0].rating
+	  	}
 
-	//     const prettyJson = JSON.stringify(firstResult, null, 4);
-	//     console.log(prettyJson);
-	//     callback(session.attributes,
-	//         buildSpeechletResponseWithoutCard(msg, "false"));
-	//   });
-	// }).catch(e => {
-	//   console.log(e);
-	// });
-            callback(session.attributes,
-            buildSpeechletResponseWithoutCard("This didn't fail", "false"));
+	  	var second = {
+	  		"name": response.jsonBody.businesses[1].name,
+	  		"rating": response.jsonBody.businesses[1].rating
+	  	}
+
+	  	var third = {
+	  		"name": response.jsonBody.businesses[2].name,
+	  		"rating": response.jsonBody.businesses[2].rating
+	  	}
+
+	  	var msg = `Your top restaurant recommendations are ${first.name}, ${first.rating} stars, ${second.name}, ${second.rating} stars, ${third.name}, ${third.rating} stars`;
+
+	    callback(session.attributes,
+	        buildSpeechletResponseWithoutCard(msg, "false"));
+	  });
+	}).catch(e => {
+	  console.log(e);
+	});
 }
 
 function handleEnterSortByFilterRequest(intent, session, callback) {
