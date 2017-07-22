@@ -189,8 +189,7 @@ function handleEnterOpenNowFilterRequest(intent, session, callback) {
         speechletResponse = "Great. All filters have been applied. You can search now.";
     } else {
         speechletResponse = "Great. Would you like to search now, or add more filters? You can also add ";
-        if (additionalFilters.length > 1) 
-            msg = additionalFilters.join(" or "); 
+        msg = additionalFilters.join(" or "); 
         speechletResponse += msg;
     }
     callback(session.attributes,
@@ -264,8 +263,7 @@ function handleEnterSortByFilterRequest(intent, session, callback) {
         speechletResponse = "Great. All filters have been applied. You can search now.";
     } else {
         speechletResponse = "Great. Would you like to search now, or add more filters? You can also add ";
-        if (additionalFilters.length > 1) 
-            msg = additionalFilters.join(" or "); 
+        msg = additionalFilters.join(" or "); 
         speechletResponse += msg;
     }
     callback(session.attributes,
@@ -292,8 +290,7 @@ function handleEnterPriceFilterRequest(intent, session, callback) {
         speechletResponse = "Great. All filters have been applied. You can search now.";
     } else {
         speechletResponse = "Great. Would you like to search now, or add more filters? You can also add ";
-        if (additionalFilters.length > 1) 
-            msg = additionalFilters.join(" or "); 
+        msg = additionalFilters.join(" or "); 
         speechletResponse += msg;
     }
     callback(session.attributes,
