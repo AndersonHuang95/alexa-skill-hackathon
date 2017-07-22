@@ -176,21 +176,22 @@ function handleOpenNowFilterRequest(intent, session, callback) {
 
 function handleEnterOpenNowFilterRequest(intent, session, callback) {
     session.attributes.openNow = true;
-    var additionalFilters = "";
+    var additionalFilters = [];
+    var msg = ""; 
     if (!session.attributes.hasOwnProperty("price")) {
-        additionalFilters += "price ";
+        additionalFilters.push("price");
     }
     if (!session.attributes.hasOwnProperty("sortBy")) {
-        additionalFilters += "sortBy";
+        additionalFilters.push("sort by");
     }
     var speechletResponse = "";
     if (additionalFilters.length === 0) {
         speechletResponse = "Great. All filters have been applied. You can search now.";
     } else {
         speechletResponse = "Great. Would you like to search now, or add more filters? You can also add ";
-        if (additionalFilters.length > 6) 
-            additionalFilters.split(' ').join(" or "); 
-        speechletResponse += additionalFilters;
+        if (additionalFilters.length > 1) 
+            msg = additionalFilters.join(" or "); 
+        speechletResponse += msg;
     }
     callback(session.attributes,
         buildSpeechletResponseWithoutCard(speechletResponse));
@@ -250,21 +251,22 @@ function handleFindRestaurantIntent(intent, session, callback) {
 
 function handleEnterSortByFilterRequest(intent, session, callback) {
     session.attributes.sortBy = intent.slots.SortByFilter.value;
-    var additionalFilters = "";
+    var additionalFilters = [];
+    var msg = ""; 
     if (!session.attributes.hasOwnProperty("openNow")) {
-        additionalFilters += "openNow";
+        additionalFilters.push("open now"); 
     }
     if (!session.attributes.hasOwnProperty("price")) {
-        additionalFilters += "  price";
+        additionalFilters.push("price"); 
     }
     var speechletResponse = "";
     if (additionalFilters.length === 0) {
         speechletResponse = "Great. All filters have been applied. You can search now.";
     } else {
         speechletResponse = "Great. Would you like to search now, or add more filters? You can also add ";
-        if (additionalFilters.length > 7) 
-            additionalFilters.split(' ').join(" or "); 
-        speechletResponse += additionalFilters;
+        if (additionalFilters.length > 1) 
+            msg = additionalFilters.join(" or "); 
+        speechletResponse += msg;
     }
     callback(session.attributes,
         buildSpeechletResponseWithoutCard(speechletResponse, "false"));
@@ -277,21 +279,22 @@ function handlePriceFilterRequest(intent, session, callback) {
 
 function handleEnterPriceFilterRequest(intent, session, callback) {
     session.attributes.price = intent.slots.PriceFilter.value;
-    var additionalFilters = "";
+    var additionalFilters = [];
+    var msg = ""; 
     if (!session.attributes.hasOwnProperty("openNow")) {
-        additionalFilters += "openNow";
+        additionalFilters.push("open now"); 
     }
     if (!session.attributes.hasOwnProperty("sortBy")) {
-        additionalFilters += " sortBy";
+        additionalFilters.push("sort by"); 
     }
     var speechletResponse = "";
     if (additionalFilters.length === 0) {
         speechletResponse = "Great. All filters have been applied. You can search now.";
     } else {
         speechletResponse = "Great. Would you like to search now, or add more filters? You can also add ";
-        if (additionalFilters.length > 7) 
-            additionalFilters.split(' ').join(" or "); 
-        speechletResponse += additionalFilters;
+        if (additionalFilters.length > 1) 
+            msg = additionalFilters.join(" or "); 
+        speechletResponse += msg;
     }
     callback(session.attributes,
         buildSpeechletResponseWithoutCard(speechletResponse, "false"));
